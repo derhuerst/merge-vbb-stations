@@ -18,8 +18,49 @@ npm install merge-vbb-stations
 ## Usage
 
 ```js
-todo
+const analyze = require('merge-vbb-stations')
+
+const s1 = {
+	type: 'station',
+	id: '900000009202',
+	name: 'U Osloer Str.',
+	coordinates: {latitude: 52.556938, longitude: 13.373284},
+	stops: [
+		{
+			type: 'stop',
+			id: '070101000950',
+			name: 'U Osloer Str.',
+			coordinates: {latitude: 52.556938, longitude: 13.373284},
+			station: '900000009202'
+		}
+		// …
+	]
+}
+
+const s2 = {
+	type: 'station',
+	id: '900000009272', // different id
+	name: 'U Osloer  Str.', // two spaces!
+	coordinates: {latitude: 52.558016, longitude: 13.372492}, // different coords
+	stops: [
+		{
+			type: 'stop',
+			id: '070101001584',
+			name: 'U Osloer  Str.',
+			coordinates: {latitude: 52.558016, longitude: 13.372492},
+			station: '900000009272'
+		}
+		// …
+	]
+}
+
+analyze(s1, s2)
 ```
+
+`analyze` will return either `null` (don't merge) or an array. The array my look like this:
+
+- `[analyze.MERGE]`: merge the stops of `s1` and `s2`, keep the stop names, todo: `s1.coordinates` & `s2.coordinates`
+- `[analyze.MERGE_AS_STOP, src, dest]`: add all stops of `src` to `dest`, use `dest.name` as stop name
 
 
 ## Contributing
