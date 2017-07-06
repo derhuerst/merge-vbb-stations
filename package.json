@@ -1,0 +1,34 @@
+{
+	"name": "merge-vbb-stations",
+	"description": "Heuristic to find VBB stations & stops that should be one.",
+	"version": "0.1.0",
+	"main": "index.js",
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"vbb",
+		"bvg",
+		"berlin",
+		"public transport",
+		"transit"
+	],
+	"author": "Jannis R <mail@jannisr.de>",
+	"homepage": "https://github.com/derhuerst/merge-vbb-stations",
+	"repository": "derhuerst/merge-vbb-stations",
+	"bugs": "https://github.com/derhuerst/merge-vbb-stations/issues",
+	"license": "ISC",
+	"engines": {
+		"node": ">=6"
+	},
+	"dependencies": {
+	},
+	"devDependencies": {
+		"tape": "^4.6.3",
+		"tap-min": "^1.2.1"
+	},
+	"scripts": {
+		"test": "node test.js | tap-min",
+		"prepublishOnly": "npm test"
+	}
+}
