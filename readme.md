@@ -1,5 +1,7 @@
 # merge-vbb-stations
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/derhuerst/merge-vbb-stations.svg)](https://greenkeeper.io/)
+
 **Heuristic to find [VBB](https://en.wikipedia.org/wiki/Verkehrsverbund_Berlin-Brandenburg) stations & stops that should be one.**
 
 [![npm version](https://img.shields.io/npm/v/merge-vbb-stations.svg)](https://www.npmjs.com/package/merge-vbb-stations)
