@@ -8,7 +8,7 @@ const leven = require('leven')
 const MERGE = 'merge'
 const MERGE_AS_STOP = 'mergeAsStop'
 
-const _ = (n) => +n.toFixed(3)
+// const _ = (n) => +n.toFixed(3)
 
 const analyse = (s1, s2) => {
 	if (s1.id === s2.id) return null // they seem to be the same
@@ -28,13 +28,7 @@ const analyse = (s1, s2) => {
 	const sS = n1.length < n2.length ? s1 : s2 // station with shorter name
 	const sL = n1.length < n2.length ? s2 : s1 // station with longer name
 
-	const nameDifference = leven(n1, n2)
-	if (nameDifference === 0) return [MERGE]
-	if (nameDifference === 1 && km <= .15) {
-		// todo: find a better heuristic
-		// always merge into the station with the shorter name
-		return [MERGE_AS_STOP, sL, sS]
-	}
+	if (n1 === n2) return [MERGE, s1, s2]
 
 	const linesAt1 = linesAt[s1.id].map((l) => l.id)
 	const linesAt2 = linesAt[s2.id].map((l) => l.id)
@@ -47,6 +41,13 @@ const analyse = (s1, s2) => {
 
 	// find "U FooBar" & "U FooBar Baz", ignore "U Foostr." & "U Foostr./Barstr."
 	if (haveSameStem && lN[sN.length] !== '/') {
+		// always merge into the station with the shorter name
+		return [MERGE_AS_STOP, sL, sS]
+	}
+
+	const nameDifference = leven(n1, n2)
+	if (nameDifference === 1 && km <= .15) {
+		// todo: find a better heuristic
 		// always merge into the station with the shorter name
 		return [MERGE_AS_STOP, sL, sS]
 	}
