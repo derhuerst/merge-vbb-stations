@@ -27,9 +27,9 @@ test('should not merge if too far', (t) => {
 })
 
 test('should merge "U Turmstr. [Bus Turmstr.]" into "U Turmstr."', (t) => {
-	t.deepEqual(analyse(turmstrBus, turmstr), [
-		analyse.MERGE_AS_STOP, turmstrBus, turmstr
-	])
+	t.deepEqual(analyse(turmstrBus, turmstr), {
+		op: analyse.MERGE, src: turmstrBus, dest: turmstr, useStationName: true
+	})
 	t.end()
 })
 

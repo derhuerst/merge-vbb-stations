@@ -6,9 +6,6 @@ const shorten = require('vbb-short-station-name')
 const leven = require('leven')
 
 const MERGE = 'merge'
-const MERGE_AS_STOP = 'mergeAsStop'
-
-// const _ = (n) => +n.toFixed(3)
 
 const analyse = (s1, s2) => {
 	if (s1.id === s2.id) return null // they seem to be the same
@@ -28,10 +25,19 @@ const analyse = (s1, s2) => {
 	const sS = n1.length < n2.length ? s1 : s2 // station with shorter name
 	const sL = n1.length < n2.length ? s2 : s1 // station with longer name
 
-	if (n1 === n2) return [MERGE, s1, s2]
-
 	const linesAt1 = linesAt[s1.id].map((l) => l.id)
 	const linesAt2 = linesAt[s2.id].map((l) => l.id)
+
+	if (n1 === n2) {
+		const withMoreLines = linesAt1.length > linesAt2.length ? s1 : s2
+		const withLessLines = linesAt1.length > linesAt2.length ? s2 : s1
+		return {
+			op: MERGE,
+			src: withLessLines, dest: withMoreLines,
+			useStationName: false
+		}
+	}
+
 	const commonLines = linesAt1.some((l) => linesAt2.includes(l))
 	if (commonLines) return null // more likely to be subsequent stations
 
@@ -42,17 +48,17 @@ const analyse = (s1, s2) => {
 	// find "U FooBar" & "U FooBar Baz", ignore "U Foostr." & "U Foostr./Barstr."
 	if (haveSameStem && lN[sN.length] !== '/') {
 		// always merge into the station with the shorter name
-		return [MERGE_AS_STOP, sL, sS]
+		return {op: MERGE, src: sL, dest: sS, useStationName: true}
 	}
 
 	const nameDifference = leven(n1, n2)
 	if (nameDifference === 1 && km <= .15) {
 		// todo: find a better heuristic
 		// always merge into the station with the shorter name
-		return [MERGE_AS_STOP, sL, sS]
+		return {op: MERGE, src: sL, dest: sS, useStationName: true}
 	}
 
 	return null
 }
 
-module.exports = Object.assign(analyse, {MERGE, MERGE_AS_STOP})
+module.exports = Object.assign(analyse, {MERGE})

@@ -22,16 +22,17 @@ const analyze = require('merge-vbb-stations')
 
 const s1 = {
 	type: 'station',
-	id: '900000009202',
-	name: 'U Osloer Str.',
-	coordinates: {latitude: 52.556938, longitude: 13.373284},
+	id: '900000003174',
+	name: 'U Turmstr. (Berlin) [Bus Turmstr.]',
+	coordinates: {latitude: 52.5263, longitude: 13.341988},
+	weight: 5533.75,
 	stops: [
 		{
 			type: 'stop',
-			id: '070101000950',
-			name: 'U Osloer Str.',
-			coordinates: {latitude: 52.556938, longitude: 13.373284},
-			station: '900000009202'
+			id: '070101000700',
+			name: 'U Turmstr. (Berlin) [Bus Turmstr.]',
+			station: '900000003174',
+			coordinates: {latitude: 52.5263, longitude: 13.341988}
 		}
 		// …
 	]
@@ -39,28 +40,43 @@ const s1 = {
 
 const s2 = {
 	type: 'station',
-	id: '900000009272', // different id
-	name: 'U Osloer  Str.', // two spaces!
-	coordinates: {latitude: 52.558016, longitude: 13.372492}, // different coords
+	id: '900000003104',
+	name: 'U Turmstr. (Berlin)',
+	coordinates: {latitude: 52.525938, longitude: 13.341417},
+	weight: 2408,
 	stops: [
 		{
 			type: 'stop',
-			id: '070101001584',
-			name: 'U Osloer  Str.',
-			coordinates: {latitude: 52.558016, longitude: 13.372492},
-			station: '900000009272'
+			id: '070201092701',
+			name: 'U Turmstr. (Berlin)',
+			station: '900000003104',
+			coordinates: {latitude: 52.525938, longitude: 13.341417}
 		}
-		// …
 	]
 }
 
 analyze(s1, s2)
 ```
 
-`analyze` will return either `null` (don't merge) or an array. The array my look like this:
+```js
+{
+	op: 'merge',
+	src: /* s1 */,
+	dest: /* s2 */,
+	useStationName: true
+}
+```
 
-- `[analyze.MERGE]`: merge the stops of `s1` and `s2`, keep the stop names, todo: `s1.coordinates` & `s2.coordinates`
-- `[analyze.MERGE_AS_STOP, src, dest]`: add all stops of `src` to `dest`, use `dest.name` as stop name
+## API
+
+`analyze(station1, station2)` will return either `null` (don't merge) or an object. The object looks like this:
+
+- `op`: right now, this can only be `analyze.MERGE`
+- `src`: station to merge from
+- `dest`: station to merge into
+- `useStationName`: wether keep the stop names or use `dest.name`
+
+todo: `s1.coordinates` & `s2.coordinates`
 
 
 ## Contributing
