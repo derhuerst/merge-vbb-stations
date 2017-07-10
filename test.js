@@ -11,6 +11,8 @@ const chorinDorf = stations('900000350316')[0]
 const chorinBhf = stations('900000350125')[0]
 const gulow1 = stations('900000215367')[0]
 const gulow2 = stations('900000215366')[0]
+const krausenStr = stations('900000100018')[0]
+const leipzigerStr = stations('900000100528')[0]
 
 test('should not merge if too far', (t) => {
 	const a = {
@@ -40,5 +42,10 @@ test('should not merge "Chorin, Dorf" and "Chorin, Bhf"', (t) => {
 
 test('should not merge "Gulow I" and "Gulow II"', (t) => {
 	t.equal(analyse(gulow1, gulow2), null, 'returns a merge op')
+	t.end()
+})
+
+test('should not merge "U Stadtmitte/Krausenstr." and "U Stadtmitte/Leipziger Str."', (t) => {
+	t.equal(analyse(krausenStr, leipzigerStr), null, 'returns a merge op')
 	t.end()
 })
