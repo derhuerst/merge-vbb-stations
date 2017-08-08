@@ -16,11 +16,13 @@ for (let id1 in stations) {
 
 		const res = analyze(s1, s2)
 		if (!res) continue
+		const {src, dest} = res
 
 		if (res.op === analyze.MERGE) {
-			console.info('merge', res.src.id, res.src.name, 'into', res.dest.id, res.dest.name, 'use station name?', res.useStationName)
-			mapping.map(res.src.id, res.dest.id)
-			delete stations[res.src.id]
+			const stopName = res.stopName || '[stop name]'
+			console.info(src.id, src.name, 'as', stopName, 'into', dest.id, dest.name)
+			mapping.map(src.id, dest.id)
+			delete stations[src.id]
 		} else console.error('unsupported merge operation: ' + res.op)
 	}
 }

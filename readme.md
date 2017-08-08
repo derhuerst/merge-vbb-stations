@@ -63,7 +63,7 @@ analyze(s1, s2)
 	op: 'merge',
 	src: /* s1 */,
 	dest: /* s2 */,
-	useStationName: true
+	stopName: 'Bus Turmstr.'
 }
 ```
 
@@ -74,7 +74,7 @@ analyze(s1, s2)
 - `op`: right now, this can only be `analyze.MERGE`
 - `src`: station to merge from
 - `dest`: station to merge into
-- `useStationName`: wether keep the stop names or use `dest.name`
+- `stopName`: which name to use for the stops of `src`; if `null`, use the stops's original name
 
 todo: `s1.coordinates` & `s2.coordinates`
 

@@ -5,8 +5,13 @@ const test = require('tape')
 
 const analyse = require('.')
 
+// merge
 const turmstrBus = stations('900000003174')[0]
 const turmstr = stations('900000003104')[0]
+const straussbergTram = stations('900000320010')[0]
+const straussberg = stations('900000320004')[0]
+
+// don't merge
 const chorinDorf = stations('900000350316')[0]
 const chorinBhf = stations('900000350125')[0]
 const gulow1 = stations('900000215367')[0]
@@ -28,10 +33,23 @@ test('should not merge if too far', (t) => {
 	t.end()
 })
 
-test('should merge "U Turmstr. [Bus Turmstr.]" into "U Turmstr."', (t) => {
-	t.deepEqual(analyse(turmstrBus, turmstr), {
-		op: analyse.MERGE, src: turmstrBus, dest: turmstr, useStationName: true
-	})
+test('should merge "U Turmstr. [Bus Turmstr.]" as "Bus Turmstr." into "U Turmstr."', (t) => {
+	const op = analyse(turmstrBus, turmstr)
+	t.ok(op, 'does not return a merge op')
+	t.equal(op.op, analyse.MERGE)
+	t.equal(op.src, turmstrBus)
+	t.equal(op.dest, turmstr)
+	t.equal(op.stopName, 'Bus Turmstr.')
+	t.end()
+})
+
+test('should merge "S Strausberg [Tram]" as "Tram" into "S Strausberg Bhf"', (t) => {
+	const op = analyse(straussbergTram, straussberg)
+	t.ok(op, 'does not return a merge op')
+	t.equal(op.op, analyse.MERGE)
+	t.equal(op.src, straussbergTram)
+	t.equal(op.dest, straussberg)
+	t.equal(op.stopName, 'Tram')
 	t.end()
 })
 

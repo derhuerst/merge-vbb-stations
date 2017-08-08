@@ -7,6 +7,9 @@ const leven = require('leven')
 
 const MERGE = 'merge'
 
+const leadingBracket = /^\s?\[/
+const trailingBracket = /\]\s?$/
+
 const analyse = (s1, s2) => {
 	if (s1.id === s2.id) return null // they seem to be the same
 
@@ -34,7 +37,7 @@ const analyse = (s1, s2) => {
 		return {
 			op: MERGE,
 			src: withLessLines, dest: withMoreLines,
-			useStationName: false
+			stopName: null
 		}
 	}
 
@@ -46,16 +49,20 @@ const analyse = (s1, s2) => {
 	const haveSameStem = lN.slice(0, sN.length) === sN
 
 	// find "U FooBar" & "U FooBar Baz", ignore "U Foostr." & "U Foostr./Barstr."
-	if (haveSameStem && lN[sN.length] !== '/') {
+	if (haveSameStem && lN[sN.length] !== '/') { // todo: find a better heuristic
+		const diff = lN.slice(sN.length)
+		.replace(leadingBracket, '')
+		.replace(trailingBracket, '')
+
 		// always merge into the station with the shorter name
-		return {op: MERGE, src: sL, dest: sS, useStationName: true}
+		return {op: MERGE, src: sL, dest: sS, stopName: diff}
 	}
 
 	const nameDifference = leven(n1, n2)
 	if (nameDifference === 1 && km <= .15) {
 		// todo: find a better heuristic
 		// always merge into the station with the shorter name
-		return {op: MERGE, src: sL, dest: sS, useStationName: true}
+		return {op: MERGE, src: sL, dest: sS, stopName: sS.name}
 	}
 
 	return null
