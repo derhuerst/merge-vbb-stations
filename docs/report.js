@@ -3,7 +3,7 @@
 const keyMap = require('key-map')
 const stations = require('vbb-stations/full.json')
 
-const analyze = require('.')
+const analyze = require('..')
 
 const mapping = keyMap(Object.keys(stations))
 const nrOfStationsBefore = Object.keys(stations).length

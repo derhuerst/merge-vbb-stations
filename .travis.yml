@@ -6,4 +6,4 @@ node_js:
   - '7'
   - '6'
 after_script:
-  - npm run apply-to-all-stations
+  - npm run report

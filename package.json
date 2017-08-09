@@ -23,19 +23,19 @@
 	},
 	"dependencies": {
 		"gps-distance": "^0.0.4",
-		"key-map": "^1.0.0",
 		"leven": "^2.1.0",
 		"vbb-short-station-name": "^0.2.1",
-		"vbb-stations": "^5.3.0",
 		"vbb-lines-at": "^3.4.0"
 	},
 	"devDependencies": {
+		"key-map": "^1.0.0",
 		"tape": "^4.6.3",
-		"tap-min": "^1.2.1"
+		"tap-min": "^1.2.1",
+		"vbb-stations": "^5.3.0"
 	},
 	"scripts": {
+		"report": "node docs/report.js",
 		"test": "node test.js | tap-min",
-		"prepublishOnly": "npm test",
-		"apply-to-all-stations": "node apply-to-all-stations.js"
+		"prepublishOnly": "npm test"
 	}
 }
