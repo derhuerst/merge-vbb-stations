@@ -65,9 +65,32 @@
 			text-align: justify;
 		}
 
-		#main {
+		#main, #report {
 			margin-top: 3rem;
 			margin-bottom: 3rem;
+		}
+
+		#report {
+			margin-left: auto;
+			margin-right: auto;
+		}
+		#report th,
+		#report td {
+			padding: .1em .5em;
+		}
+
+		#report .src-name,
+		#report .dest-id,
+		#report .dest-name,
+		#report .stop-name {
+			text-align: left;
+		}
+		#report .dest-name,
+		#report .stop-name {
+			font-size: 95%;
+		}
+		#report .src-id {
+			text-align: right;
 		}
 
 		#github path {
@@ -120,10 +143,11 @@
 
 		<h2>Specifically, where does this happen?</h2>
 		<p>I wrote <a href="https://github.com/derhuerst/merge-vbb-stations"><code>merge-vbb-stations</code></a> as a heuristic to identify these cases and automatically merge split-up stations in some projects.</p>
-		<p>The following is <strong>a list of all stations that need a change</strong>, according to the heuristic. <em>Note that this is an automatic process and only serves as a guideline.</em></p>
-{{table}}
+		<p>The following is <strong>a list of all stations that need a change</strong>, according to the heuristic. <em>Note that it has been automatically generated and only serves as a guideline.</em></p>
 	</main>
+	<div id="report">{{table}}</div>
 	<footer id="footer" class="section">
 		<p><a href="https://github.com/derhuerst/merge-vbb-stations"><abbr title="Free Open Source Software">FOSS</abbr></a> made with ♥️ by <a href="http://jannisr.de">@derhuerst</a>.</p>
 	</footer>
 </body></html>
+

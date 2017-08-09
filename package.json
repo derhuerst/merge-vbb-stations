@@ -28,13 +28,14 @@
 		"vbb-lines-at": "^3.4.0"
 	},
 	"devDependencies": {
+		"hyperscript": "^2.0.2",
 		"key-map": "^1.0.0",
-		"tape": "^4.6.3",
 		"tap-min": "^1.2.1",
+		"tape": "^4.6.3",
 		"vbb-stations": "^5.3.0"
 	},
 	"scripts": {
-		"report": "node docs/report.js",
+		"report": "node build-report.js >docs/index.html",
 		"test": "node test.js | tap-min",
 		"prepublishOnly": "npm test"
 	}
