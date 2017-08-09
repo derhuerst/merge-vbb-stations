@@ -87,6 +87,42 @@
 			</g>
 		</svg>
 	</a>
+	<main id="main">
+		<h2>Why stations &amp; stops?</h2>
+		<p><a href="https://developers.google.com/transit/gtfs/">GTFS</a> <a href="https://developers.google.com/transit/gtfs/reference/stops-file#stops_location_type_field">has the notion</a> of <strong>stations</strong> (<q>a physical structure or area that contains one or more stop</q>) and <strong>their stops</strong> (<q>a location where passengers board or disembark from a transit vehicle</q>).</p>
+		<p>Consider the following example: The <em>station</em> <a href="https://www.openstreetmap.org/relation/5843489#map=18/52.50697/13.33294&layers=T"><code>S+U Zoologischer Garten</code></a> should have at least 5 <em>stops</em>.</p>
+		<pre><code>
+ S+U Zoologischer Garten
+      |
+      |----------------------------------------------------------------
+      |              |              |               |                 |
+ U2 platform   U9 platform   S-Bahn platform   bus track west   bus track east
+                                                (where buses     (where buses
+                                                 leave Zoo)       arrive)
+		</code></pre>
+		<p>This distinction is essential to the following use cases:</p>
+		<ul>
+			<li>Apps &amp; online services are able to <strong>show users specifically where to wait</strong> for a vehicle.</li>
+			<li>Routing algorithms can <strong>estimate the time required</strong> to get from one <em>stop</em> to another (e.g. from the western bus track to the U9 platform).</li>
+			<li>The search functionality in apps will give far better results by showing stations only.</li>
+			<li>On a map, apps can show more helpful information: They can show stations, but after zooming in, they can also show stops.</li>
+		</ul>
+
+		<h2>What about <i>VBB</i> data?</h2>
+		<p><i>VBB</i> has had a mediocre record of making this distinction in <a href="https://daten.berlin.de/kategorie/verkehr">their open static data</a>. Most of their <em>stations</em> have corresponding <em>stops</em> for all relevant "parts". <code>900000012103</code> (<code>U Hallesches Tor</code>) is a good example.</p>
+		<p>Some stations are split up unnecessarily though. Take <a href="https://www.openstreetmap.org/#map=18/52.59636/13.33558&layers=T"><code>S+U Wittenau</code></a> as an example:</p>
+		<ul>
+			<li>The station <code>900000096101</code> (<code>S+U Wittenau</code>) contains a stop for the <code>S1</code>/<code>S85</code> platform.</li>
+			<li>The station <code>900000096197</code> (<code>S+U Wittenau [U8]</code>) contains a stop for the <code>U8</code> platform.</li>
+			<li>The station <code>900000096198</code> (<code>S+U Wittenau [Bus Wilhelmsruher Damm]</code>) contains stops for all bus lines.</li>
+		</ul>
+		<p>During my analysis of this problem, I mostly focused on Berlin. As of August 2017, <strong>roughly 35 stations are split up unnecessarily</strong> in Berlin.</p>
+
+		<h2>Specifically, where does this happen?</h2>
+		<p>I wrote <a href="https://github.com/derhuerst/merge-vbb-stations"><code>merge-vbb-stations</code></a> as a heuristic to identify these cases and automatically merge split-up stations in some projects.</p>
+		<p>The following is <strong>a list of all stations that need a change</strong>, according to the heuristic. <em>Note that this is an automatic process and only serves as a guideline.</em></p>
+{{table}}
+	</main>
 	<footer id="footer" class="section">
 		<p><a href="https://github.com/derhuerst/merge-vbb-stations"><abbr title="Free Open Source Software">FOSS</abbr></a> made with ♥️ by <a href="http://jannisr.de">@derhuerst</a>.</p>
 	</footer>
