@@ -8,3 +8,13 @@ node_js:
 script:
   - npm test
   - npm run report
+after_script:
+  - ls -lh docs/index.html
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  on:
+    node: stable
+    branch: master
+  local_dir: docs
