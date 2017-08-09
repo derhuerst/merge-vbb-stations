@@ -9,6 +9,7 @@ const MERGE = 'merge'
 
 const leadingBracket = /^\s?\[/
 const trailingBracket = /\]\s?$/
+const leadingComma = /^,\s?/
 
 const analyse = (s1, s2) => {
 	if (s1.id === s2.id) return null // they seem to be the same
@@ -53,6 +54,7 @@ const analyse = (s1, s2) => {
 		const diff = lN.slice(sN.length)
 		.replace(leadingBracket, '')
 		.replace(trailingBracket, '')
+		.replace(leadingComma, '')
 
 		// always merge into the station with the shorter name
 		return {op: MERGE, src: sL, dest: sS, stopName: diff}

@@ -1,6 +1,6 @@
 # merge-vbb-stations
 
-**Heuristic to find [VBB](https://en.wikipedia.org/wiki/Verkehrsverbund_Berlin-Brandenburg) stations & stops that should be one.**
+**Heuristic to find [VBB](https://en.wikipedia.org/wiki/Verkehrsverbund_Berlin-Brandenburg) stations & stops that should be one.** Check out [the automatic report](https://derhuerst.github.io/merge-vbb-stations/)!
 
 [![npm version](https://img.shields.io/npm/v/merge-vbb-stations.svg)](https://www.npmjs.com/package/merge-vbb-stations)
 [![build status](https://img.shields.io/travis/derhuerst/merge-vbb-stations.svg)](https://travis-ci.org/derhuerst/merge-vbb-stations)
