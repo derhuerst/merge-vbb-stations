@@ -8,13 +8,14 @@ const path = require('path')
 const applyToAll = require('./lib/apply-to-all')
 
 const renderInstruction = ({op, src, dest, stopName}) => {
+	const id = [op, src.id, dest.id].join('-')
+	const anchor = h('a', {href: '#' + id}, '#')
 	const htmlStopName = stopName
 		? h('code', {}, stopName)
 		: h('i', {}, 'keep original one')
 
-	return h('tr', {
-		id: [op, src.id, dest.id].join('-')
-	}, [
+	return h('tr', {id}, [
+		h('td', {class: 'link'}, anchor),
 		h('td', {class: 'src-name'}, shorten(src.name)),
 		h('td', {class: 'src-id'}, h('code', {}, src.id)),
 		h('td', {class: 'dest-id'}, h('code', {}, dest.id)),
@@ -29,9 +30,10 @@ console.error(`computed ${instructions.length} instructions`)
 const report = h('table', {}, [
 	h('thead', {}, [
 		h('tr', {}, [
+			h('th', {class: 'link'}, '#'),
 			h('th', {class: 'src-name'}, 'station name'),
-			h('th', {class: 'src-id'}, 'station id'),
-			h('th', {class: 'dest-id'}, 'dest. id'),
+			h('th', {class: 'src-id'}, 'station ID'),
+			h('th', {class: 'dest-id'}, 'dest. ID'),
 			h('th', {class: 'dest-name'}, 'dest. name'),
 			h('th', {class: 'stop-name'}, `name for station's stops`)
 		])
