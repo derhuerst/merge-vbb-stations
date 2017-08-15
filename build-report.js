@@ -26,6 +26,7 @@ const renderInstruction = ({op, src, dest, stopName}) => {
 
 const instructions = applyToAll()
 console.error(`computed ${instructions.length} instructions`)
+const rows = instructions.map(renderInstruction)
 
 const report = h('table', {}, [
 	h('thead', {}, [
@@ -38,12 +39,29 @@ const report = h('table', {}, [
 			h('th', {class: 'stop-name'}, `name for station's stops`)
 		])
 	]),
-	h('tbody', {}, instructions.map(renderInstruction))
+	h('tbody', {}, rows)
 ])
 
-const src = path.join(__dirname, 'docs/report.html')
-const dest = path.join(__dirname, 'docs/index.html')
-const skeleton = fs.readFileSync(src, {encoding: 'utf8'})
+const reportDE = h('table', {}, [
+	h('thead', {}, [
+		h('tr', {}, [
+			h('th', {class: 'link'}, '#'),
+			h('th', {class: 'src-name'}, 'Stationsname'),
+			h('th', {class: 'src-id'}, 'Stations-ID'),
+			h('th', {class: 'dest-id'}, 'Ziel-ID'),
+			h('th', {class: 'dest-name'}, 'Zielname'),
+			h('th', {class: 'stop-name'}, `Name f. d. Haltest. der St.`)
+		])
+	]),
+	h('tbody', {}, rows)
+])
 
+const f = (p) => path.join(__dirname, 'docs', p)
+
+const skeleton = fs.readFileSync(f('report.html'), {encoding: 'utf8'})
 const rendered = skeleton.replace('{{table}}', report.outerHTML)
-process.stdout.write(rendered + '\n')
+fs.writeFileSync(f('index.html'), rendered)
+
+const skeletonDE = fs.readFileSync(f('report.de.html'), {encoding: 'utf8'})
+const renderedDE = skeletonDE.replace('{{table}}', reportDE.outerHTML)
+fs.writeFileSync(f('index.de.html'), renderedDE)

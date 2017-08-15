@@ -35,7 +35,7 @@
 		"vbb-stations": "^5.3.0"
 	},
 	"scripts": {
-		"report": "node build-report.js >docs/index.html",
+		"report": "node build-report.js",
 		"test": "node test.js | tap-min",
 		"prepublishOnly": "npm test"
 	}
