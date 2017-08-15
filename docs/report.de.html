@@ -114,6 +114,41 @@
 			</g>
 		</svg>
 	</a>
+	<main id="main">
+		<h2>Warum Stationen &amp; Haltestellen?</h2>
+		<p><a href="https://developers.google.com/transit/gtfs/">GTFS</a> <a href="https://developers.google.com/transit/gtfs/reference/stops-file#stops_location_type_field">beschreibt das Konzept</a> von <strong>Stationen</strong> (Gebäude oder Bereiche, die eine oder mehr Haltestellen enthalten) und <strong>Haltestellen</strong> (Orte, an denen Passagiere ein Fahrzeug betreten oder verlassen können).</p>
+		<p>Wählen wir folgendes Beispiel: Die <em>Station</em> <a href="https://www.openstreetmap.org/relation/5843489#map=18/52.50697/13.33294&layers=T"><code>S+U Zoologischer Garten</code></a> müsste mindestens 5 <em>Haltestellen</em> haben.</p>
+		<pre><code>
+ S+U Zoologischer Garten
+      |
+      |----------------------------------------------------------------
+      |              |               |               |                |
+ Bahnsteig U2   Bahnsteig U9  Bahnsteig S-Bahn  Busspur West   Busspur Ost
+                                                (Busse ver-    (Busse kommen
+                                                 lassen Zoo)    am Zoo an)
+		</code></pre>
+		<p>Diese Unterscheidung ist für die folgenden Anwendungsfälle essenziell:</p>
+		<ul>
+			<li>Apps &amp; Online-Services können <strong>Nutzenden genau zeigen, wo sie auf ein Fahrzeug warten müssen</strong>.</li>
+			<li>Routing-Algorithmen können <strong>die Zeit abschätzen</strong>, die man von einer <em>Haltestelle</em> zur nächsten braucht, z.B. von der Busspur West zum Bahnsteig der U9.</li>
+			<li>Die Suchfunktion in Apps wird deutlich bessere Ergebnisse liefern, indem sie nur <em>Stationen</em> zeigt.</li>
+			<li>Apps können auf einer Karte hilfreichere Informationen bieten: Zunächst zeigen sie nur <em>Stationen</em>, nach dem Zoomen dann auch <em>Haltestellen</em>.</li>
+		</ul>
+
+		<h2>Was ist mit den <i>VBB</i>-Daten?</h2>
+		<p><a href="https://de.wikipedia.org/wiki/Verkehrsverbund_Berlin-Brandenburg">Der <i>VBB</i></a> hat diese Unterscheidung in <a href="https://daten.berlin.de/kategorie/verkehr">seinen offenen Verkehrsdaten</a> nicht immer getroffen. Die Meisten der <em>Stationen</em> haben entsprechende <em>Haltestellen</em> für alle wichtigen "Teile". <code>900000012103</code> (<code>U Hallesches Tor</code>) is ein gutes Beispiel.</p>
+		<p>Manche Stationen sind allerdings unnötig zerteilt. Wählen wir <a href="https://www.openstreetmap.org/#map=18/52.59636/13.33558&layers=T"><code>S+U Wittenau</code></a> als Beispiel:</p>
+		<ul>
+			<li>Die Station <code>900000096101</code> (<code>S+U Wittenau</code>) enthält eine Haltestelle für den Bahnsteig der <code>S1</code>/<code>S85</code>.</li>
+			<li>Die Station <code>900000096197</code> (<code>S+U Wittenau [U8]</code>) enthält eine Haltestelle für den Bahnsteig der <code>U8</code>.</li>
+			<li>Die Station <code>900000096198</code> (<code>S+U Wittenau [Bus Wilhelmsruher Damm]</code>) enthält Haltestellen für alle Buslinien.</li>
+		</ul>
+		<p>Während meiner Analyse des Problems habe ich mich auf Berlin konzentriert. Zum Stand August 2017 sind <strong>in Berlin ca. 35 Stationen unnötig zerteilt</strong>.</p>
+
+		<h2>Wo genau ist das der Fall?</h2>
+		<p>Ich habe <a href="https://github.com/derhuerst/merge-vbb-stations"><code>merge-vbb-stations</code></a> als eine Heuristik geschrieben, um die zerteilten Stationen zu erkennen und in manchen Projekten automatisch zu kombinieren.</p>
+		<p>Es folgt <strong>die Liste aller Stationen, die laut der Heuristik diesbezüglich geändert werden müssen</strong>. <em>Es ist zu beachten, dass sie automatisch generiert wurde und nur als Richtlinie dient.</em></p>
+	</main>
 	<div id="report">{{table}}</div>
 	<footer id="footer" class="section">
 		<p><a href="https://github.com/derhuerst/merge-vbb-stations"><abbr title="Free Open Source Software">Open-Source-Software</abbr></a>, mit ♥️ von <a href="http://jannisr.de">@derhuerst</a> gemacht.</p>
