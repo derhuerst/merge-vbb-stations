@@ -16,7 +16,7 @@ const hirteStrasse = stations('900000180716')[0]
 // don't merge
 const chorinDorf = stations('900000350316')[0]
 const chorinBhf = stations('900000350125')[0]
-const gulow1 = stations('900000215367')[0]
+const gulow3 = stations('900000215367')[0]
 const gulow2 = stations('900000215366')[0]
 const krausenStr = stations('900000100018')[0]
 const leipzigerStr = stations('900000100528')[0]
@@ -49,8 +49,8 @@ test('should merge "U Hirtestr." and "Hirtestraße"', (t) => {
 	const op = analyse(hirteStr, hirteStrasse)
 	t.ok(op, 'does not return a merge op')
 	t.equal(op.op, analyse.MERGE)
-	t.equal(op.src, hirteStrasse)
-	t.equal(op.dest, hirteStr)
+	t.equal(op.src, hirteStr)
+	t.equal(op.dest, hirteStrasse)
 	t.equal(op.stopName, null) // use stop's original name
 	t.end()
 })
@@ -71,7 +71,7 @@ test('should not merge "Chorin, Dorf" and "Chorin, Bhf"', (t) => {
 })
 
 test('should not merge "Gulow I" and "Gulow II"', (t) => {
-	t.equal(analyse(gulow1, gulow2), null, 'returns a merge op')
+	t.equal(analyse(gulow3, gulow2), null, 'returns a merge op')
 	t.end()
 })
 
