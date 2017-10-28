@@ -29,6 +29,8 @@ const analyse = (s1, s2) => {
 	const sS = n1.length < n2.length ? s1 : s2 // station with shorter name
 	const sL = n1.length < n2.length ? s2 : s1 // station with longer name
 
+	// todo: aborting here is a suboptimal solution, find something better
+	if (!linesAt[s1.id] || !linesAt[s2.id]) return null
 	const linesAt1 = linesAt[s1.id].map((l) => l.id)
 	const linesAt2 = linesAt[s2.id].map((l) => l.id)
 
