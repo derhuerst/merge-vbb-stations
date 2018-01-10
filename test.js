@@ -23,12 +23,24 @@ const leipzigerStr = stations('900000100528')[0]
 
 test('should not merge if too far', (t) => {
 	const a = {
-		type: 'station', id: 'a', name: 'a',
-		coordinates: {latitude: 52.5, longitude: 13.5}
+		type: 'station',
+		id: 'a',
+		name: 'a',
+		location: {
+			type: 'location',
+			latitude: 52.5,
+			longitude: 13.5
+		}
 	}
 	const b = {
-		type: 'station', id: 'b', name: 'b',
-		coordinates: {latitude: 52.6, longitude: 13.6}
+		type: 'station',
+		id: 'b',
+		name: 'b',
+		location: {
+			type: 'location',
+			latitude: 52.6,
+			longitude: 13.6
+		}
 	}
 
 	t.equal(analyse(a, b), null)
