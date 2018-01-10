@@ -17,8 +17,8 @@ const analyse = (s1, s2) => {
 	// don't merge stops with stations
 	if (s1.type !== s2.type) return null
 
-	const c1 = s1.coordinates
-	const c2 = s2.coordinates
+	const c1 = s1.location
+	const c2 = s2.location
 	const km = distance(c1.latitude, c1.longitude, c2.latitude, c2.longitude)
 
 	// cheap cutoff: stations more than 250m apart can be ignored
