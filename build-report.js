@@ -24,7 +24,7 @@ const renderInstruction = ({op, src, dest, stopName}) => {
 	])
 }
 
-const instructions = applyToAll()
+const {instructions} = applyToAll()
 console.error(`computed ${instructions.length} instructions`)
 const rows = instructions.map(renderInstruction)
 
