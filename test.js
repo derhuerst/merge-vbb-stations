@@ -12,6 +12,8 @@ const straussbergTram = stations('900000320010')[0]
 const straussberg = stations('900000320004')[0]
 const hirteStr = stations('900000180016')[0]
 const hirteStrasse = stations('900000180716')[0]
+const yorckstrSbahn = stations('900000058103')[0]
+const yorckstr = stations('900000057103')[0]
 
 // don't merge
 const chorinDorf = stations('900000350316')[0]
@@ -74,6 +76,13 @@ test('should merge "S Strausberg [Tram]" as "Tram" into "S Strausberg Bhf"', (t)
 	t.equal(op.src, straussbergTram)
 	t.equal(op.dest, straussberg)
 	t.equal(op.stopName, 'Tram')
+	t.end()
+})
+
+test('should merge with trimmed stop name', (t) => {
+	const op = analyse(yorckstrSbahn, yorckstr)
+	t.ok(op, 'does not return a merge op')
+	t.equal(op.stopName, op.stopName.trim())
 	t.end()
 })
 

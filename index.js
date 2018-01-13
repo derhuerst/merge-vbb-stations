@@ -59,7 +59,7 @@ const analyse = (s1, s2) => {
 		.replace(leadingComma, '')
 
 		// always merge into the station with the shorter name
-		return {op: MERGE, src: sL, dest: sS, stopName: diff}
+		return {op: MERGE, src: sL, dest: sS, stopName: diff.trim()}
 	}
 
 	const nameDifference = leven(n1, n2)
