@@ -1,7 +1,7 @@
 {
 	"name": "merge-vbb-stations",
 	"description": "Heuristic to find VBB stations & stops that should be one.",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"main": "index.js",
 	"files": [
 		"index.js",
@@ -26,14 +26,14 @@
 		"gps-distance": "^0.0.4",
 		"key-map": "^1.0.0",
 		"leven": "^2.1.0",
+		"vbb-lines-at": "^3.4.0",
 		"vbb-short-station-name": "^0.4.0",
-		"vbb-lines-at": "^3.4.0"
+		"vbb-stations": "^6.1.0"
 	},
 	"devDependencies": {
 		"hyperscript": "^2.0.2",
 		"tap-min": "^1.2.1",
-		"tape": "^4.6.3",
-		"vbb-stations": "^6.1.0"
+		"tape": "^4.6.3"
 	},
 	"scripts": {
 		"report": "node build-report.js",
