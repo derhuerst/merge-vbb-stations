@@ -27,7 +27,7 @@
 		"key-map": "^1.0.0",
 		"leven": "^2.1.0",
 		"vbb-lines-at": "^3.4.0",
-		"vbb-short-station-name": "^0.4.0",
+		"vbb-short-station-name": "^1.0.0",
 		"vbb-stations": "^6.1.0"
 	},
 	"devDependencies": {
