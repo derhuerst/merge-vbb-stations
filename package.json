@@ -1,7 +1,7 @@
 {
 	"name": "merge-vbb-stations",
 	"description": "Heuristic to find VBB stations & stops that should be one.",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"main": "index.js",
 	"files": [
 		"index.js",
