@@ -14,6 +14,8 @@ const hirteStr = stations('900000180016')[0]
 const hirteStrasse = stations('900000180716')[0]
 const yorckstrSbahn = stations('900000058103')[0]
 const yorckstr = stations('900000057103')[0]
+const stadtmitte = stations('900000100011')[0]
+const stadtmitteU2 = stations('900000100701')[0]
 
 // don't merge
 const chorinDorf = stations('900000350316')[0]
@@ -59,12 +61,12 @@ test('should merge "U Turmstr. [Bus Turmstr.]" as "Bus Turmstr." into "U Turmstr
 	t.end()
 })
 
-test('should merge "U Hirtestr." and "Hirtestraße"', (t) => {
+test('should merge "Hirtestr." and "Hirtestraße"', (t) => {
 	const op = analyse(hirteStr, hirteStrasse)
 	t.ok(op, 'does not return a merge op')
 	t.equal(op.op, analyse.MERGE)
-	t.equal(op.src, hirteStr)
-	t.equal(op.dest, hirteStrasse)
+	t.equal(op.src, hirteStrasse)
+	t.equal(op.dest, hirteStr)
 	t.equal(op.stopName, null) // use stop's original name
 	t.end()
 })
@@ -76,6 +78,16 @@ test('should merge "S Strausberg [Tram]" as "Tram" into "S Strausberg Bhf"', (t)
 	t.equal(op.src, straussbergTram)
 	t.equal(op.dest, straussberg)
 	t.equal(op.stopName, 'Tram')
+	t.end()
+})
+
+test('should merge "Berlin, U Stadtmitte U2" as into "U Stadtmitte"', (t) => {
+	const op = analyse(stadtmitteU2, stadtmitte)
+	t.ok(op, 'does not return a merge op')
+	t.equal(op.op, analyse.MERGE)
+	t.equal(op.src, stadtmitteU2)
+	t.equal(op.dest, stadtmitte)
+	t.equal(op.stopName, 'U2')
 	t.end()
 })
 
