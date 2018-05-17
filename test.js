@@ -16,6 +16,8 @@ const yorckstrSbahn = stations('900000058103')[0]
 const yorckstr = stations('900000057103')[0]
 const stadtmitte = stations('900000100011')[0]
 const stadtmitteU2 = stations('900000100701')[0]
+const karlshorst = stations('900000162001')[0]
+const karlshorstWandlitzstr = stations('900000162501')[0]
 
 // don't merge
 const chorinDorf = stations('900000350316')[0]
@@ -88,6 +90,16 @@ test('should merge "Berlin, U Stadtmitte U2" as into "U Stadtmitte"', (t) => {
 	t.equal(op.src, stadtmitteU2)
 	t.equal(op.dest, stadtmitte)
 	t.equal(op.stopName, 'U2')
+	t.end()
+})
+
+test('should merge "S Karlshorst /Wandlitzstr." as "Wandlitzstr." into "S Karlshorst"', (t) => {
+	const op = analyse(karlshorstWandlitzstr, karlshorst)
+	t.ok(op, 'does not return a merge op')
+	t.equal(op.op, analyse.MERGE)
+	t.equal(op.src, karlshorstWandlitzstr)
+	t.equal(op.dest, karlshorst)
+	t.equal(op.stopName, 'Wandlitzstr.')
 	t.end()
 })
 
