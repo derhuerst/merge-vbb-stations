@@ -25,7 +25,7 @@
 	"dependencies": {
 		"gps-distance": "^0.0.4",
 		"key-map": "^1.0.0",
-		"leven": "^2.1.0",
+		"leven": "^3.0.0",
 		"vbb-lines-at": "^3.4.0",
 		"vbb-short-station-name": "^1.0.1",
 		"vbb-stations": "^6.1.0"
