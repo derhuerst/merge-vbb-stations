@@ -83,7 +83,7 @@ test('should merge "S Strausberg [Tram]" as "Tram" into "S Strausberg Bhf"', (t)
 	t.end()
 })
 
-test('should merge "Berlin, U Stadtmitte U2" as into "U Stadtmitte"', (t) => {
+test('should merge "Berlin, U Stadtmitte U2" as "U2" into "U Stadtmitte"', (t) => {
 	const op = analyse(stadtmitteU2, stadtmitte)
 	t.ok(op, 'does not return a merge op')
 	t.equal(op.op, analyse.MERGE)
@@ -93,7 +93,8 @@ test('should merge "Berlin, U Stadtmitte U2" as into "U Stadtmitte"', (t) => {
 	t.end()
 })
 
-test('should merge "S Karlshorst /Wandlitzstr." as "Wandlitzstr." into "S Karlshorst"', (t) => {
+// These are now run at subsequently by M17, 27 & 37.
+test.skip('should merge "S Karlshorst /Wandlitzstr." as "Wandlitzstr." into "S Karlshorst"', (t) => {
 	const op = analyse(karlshorstWandlitzstr, karlshorst)
 	t.ok(op, 'does not return a merge op')
 	t.equal(op.op, analyse.MERGE)
