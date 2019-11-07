@@ -2,7 +2,6 @@ language: node_js
 node_js:
   - 'stable'
   - 'lts/*'
-  - '6'
 script:
   - npm test
   - npm run report
