@@ -14,8 +14,6 @@ const hirteStr = stations('900000180016')[0]
 const hirteStr2 = stations('900000180716')[0]
 const yorckstrSbahn = stations('900000058103')[0]
 const yorckstr = stations('900000057103')[0]
-const stadtmitte = stations('900000100011')[0]
-const stadtmitteU2 = stations('900000100701')[0]
 const karlshorst = stations('900000162001')[0]
 const karlshorstWandlitzstr = stations('900000162501')[0]
 
@@ -80,16 +78,6 @@ test('should merge "S Strausberg [Tram]" as "Tram" into "S Strausberg Bhf"', (t)
 	t.equal(op.src, straussbergTram)
 	t.equal(op.dest, straussberg)
 	t.equal(op.stopName, 'Tram')
-	t.end()
-})
-
-test('should merge "Berlin, U Stadtmitte U2" as "U2" into "U Stadtmitte"', (t) => {
-	const op = analyse(stadtmitteU2, stadtmitte)
-	t.ok(op, 'does not return a merge op')
-	t.equal(op.op, analyse.MERGE)
-	t.equal(op.src, stadtmitteU2)
-	t.equal(op.dest, stadtmitte)
-	t.equal(op.stopName, 'U2')
 	t.end()
 })
 
