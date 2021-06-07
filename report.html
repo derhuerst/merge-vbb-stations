@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+	<meta charset="utf-8"/>
+	<title>merge-vbb-stations</title>
+	<meta name="description" content="Heuristic to find VBB stations & stops that should be one."/>
+	<meta name="keywords" content="vbb, bvg, berlin, public transport, transit"/>
+	<meta name="author" content="Jannis R <mail@jannisr.de>"/>
+	<meta name="viewport" content="width=device-width,initial-scale=1"/>
+	<style>
+		body {
+			margin: 0; padding: 0 .5rem;
+			background-color: #fff;
+			font-family: sans-serif;
+			font-weight: 300;
+			/*todo: system sans-serif font*/
+			font-size: 105%;
+			text-align: center;
+			color: #333;
+			line-height: 1.3;
+		}
+
+		h1, h2, p {
+			margin: 1rem 0;
+		}
+		h1 {
+			font-size: 300%;
+		}
+		h2 {
+			margin-top: 2rem;
+			font-size: 150%;
+			text-align: left;
+			font-weight: normal;
+		}
+
+		ul, ol {
+			padding-left: 0;
+			list-style-type: '-';
+		}
+		ul li, ol li {
+			margin: .5em 0;
+		}
+
+		a, a:active {
+			text-decoration: none;
+			color: #3498db;
+		}
+		a:hover, a:focus {
+			text-decoration: underline;
+			outline: none;
+		}
+
+		code {
+			font-size: 110%;
+		}
+
+		q {
+			font-style: italic;
+		}
+
+		main {
+			margin-left: auto;
+			margin-right: auto;
+			max-width: 38em;
+			text-align: justify;
+		}
+
+		#main, #report {
+			margin-top: 3rem;
+			margin-bottom: 3rem;
+		}
+
+		#report {
+			margin-left: auto;
+			margin-right: auto;
+			padding: 0;
+		}
+		#report th,
+		#report td {
+			padding: .1em .5em;
+		}
+		#report th {
+			border-bottom: 1px solid #333;
+		}
+
+		#report .src-name,
+		#report .dest-id,
+		#report .dest-name,
+		#report .stop-name {
+			text-align: left;
+		}
+		#report .dest-name,
+		#report .stop-name {
+			font-size: 95%;
+		}
+		#report .src-id {
+			text-align: right;
+		}
+
+		#github path {
+			fill: #333;
+		}
+		#github svg:hover path {
+			fill: #666;
+		}
+	</style>
+</head><body>
+	<h1><code>merge-vbb-stations</code></h1>
+	<!-- https://github.com/github/octicons/blob/0640e0c0e555a02e4628b96d5e72ef3328f27214/svg/mark-github.svg -->
+	<a id="github" href="https://github.com/derhuerst/merge-vbb-stations">
+		<svg height="36" width="36" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+			<g transform="translate(1, 1)">
+				<path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59 0.4 0.07 0.55-0.17 0.55-0.38 0-0.19-0.01-0.82-0.01-1.49-2.01 0.37-2.53-0.49-2.69-0.94-0.09-0.23-0.48-0.94-0.82-1.13-0.28-0.15-0.68-0.52-0.01-0.53 0.63-0.01 1.08 0.58 1.23 0.82 0.72 1.21 1.87 0.87 2.33 0.66 0.07-0.52 0.28-0.87 0.51-1.07-1.78-0.2-3.64-0.89-3.64-3.95 0-0.87 0.31-1.59 0.82-2.15-0.08-0.2-0.36-1.02 0.08-2.12 0 0 0.67-0.21 2.2 0.82 0.64-0.18 1.32-0.27 2-0.27 0.68 0 1.36 0.09 2 0.27 1.53-1.04 2.2-0.82 2.2-0.82 0.44 1.1 0.16 1.92 0.08 2.12 0.51 0.56 0.82 1.27 0.82 2.15 0 3.07-1.87 3.75-3.65 3.95 0.29 0.25 0.54 0.73 0.54 1.48 0 1.07-0.01 1.93-0.01 2.2 0 0.21 0.15 0.46 0.55 0.38C13.71 14.53 16 11.53 16 8 16 3.58 12.42 0 8 0z"/>
+			</g>
+		</svg>
+	</a>
+	<main id="main">
+		<h2>Why stations &amp; stops?</h2>
+		<p><a href="https://developers.google.com/transit/gtfs/">GTFS</a> <a href="https://developers.google.com/transit/gtfs/reference/stops-file#stops_location_type_field">has the notion</a> of <strong>stations</strong> (<q>a physical structure or area that contains one or more stop</q>) and <strong>their stops</strong> (<q>a location where passengers board or disembark from a transit vehicle</q>).</p>
+		<p>Consider the following example: The <em>station</em> <a href="https://www.openstreetmap.org/relation/5843489#map=18/52.50697/13.33294&layers=T"><code>S+U Zoologischer Garten</code></a> should have at least 5 <em>stops</em>.</p>
+		<pre><code>
+ S+U Zoologischer Garten
+      |
+      |----------------------------------------------------------------
+      |              |              |               |                 |
+ U2 platform   U9 platform   S-Bahn platform   bus track west   bus track east
+                                                (where buses     (where buses
+                                                 leave Zoo)       arrive)
+		</code></pre>
+		<p>This distinction is essential to the following use cases:</p>
+		<ul>
+			<li>Apps &amp; online services are able to <strong>show users specifically where to wait</strong> for a vehicle.</li>
+			<li>Routing algorithms can <strong>estimate the time required</strong> to get from one <em>stop</em> to another (e.g. from the western bus track to the U9 platform).</li>
+			<li>The search functionality in apps will give far better results by showing stations only.</li>
+			<li>On a map, apps can show more helpful information: They can show stations, but after zooming in, they can also show stops.</li>
+		</ul>
+
+		<h2>What about <i>VBB</i> data?</h2>
+		<p><a href="https://en.wikipedia.org/wiki/Verkehrsverbund_Berlin-Brandenburg"><i>VBB</i></a> has had a mediocre record of making this distinction in <a href="https://daten.berlin.de/kategorie/verkehr">their open static data</a>. Most of their <em>stations</em> have corresponding <em>stops</em> for all relevant "parts". <code>900000012103</code> (<code>U Hallesches Tor</code>) is a good example.</p>
+		<p>Some stations are split up unnecessarily though. Take <a href="https://www.openstreetmap.org/#map=18/52.59636/13.33558&layers=T"><code>S+U Wittenau</code></a> as an example:</p>
+		<ul>
+			<li>The station <code>900000096101</code> (<code>S+U Wittenau</code>) contains a stop for the <code>S1</code>/<code>S85</code> platform.</li>
+			<li>The station <code>900000096197</code> (<code>S+U Wittenau [U8]</code>) contains a stop for the <code>U8</code> platform.</li>
+			<li>The station <code>900000096198</code> (<code>S+U Wittenau [Bus Wilhelmsruher Damm]</code>) contains stops for all bus lines.</li>
+		</ul>
+		<p>During my analysis of this problem, I mostly focused on Berlin. As of August 2017, <strong>roughly 35 stations are split up unnecessarily</strong> in Berlin.</p>
+
+		<h2>Specifically, where does this happen?</h2>
+		<p>I wrote <a href="https://github.com/derhuerst/merge-vbb-stations"><code>merge-vbb-stations</code></a> as a heuristic to identify these cases and automatically merge split-up stations in some projects.</p>
+		<p>The following is <strong>a list of all stations that need a change</strong>, according to the heuristic. <em>Note that it has been automatically generated and only serves as a guideline.</em></p>
+	</main>
+	<div id="report">{{table}}</div>
+	<footer id="footer" class="section">
+		<p><a href="https://github.com/derhuerst/merge-vbb-stations"><abbr title="Free Open Source Software">FOSS</abbr></a> made with ♥️ by <a href="http://jannisr.de">@derhuerst</a>.</p>
+	</footer>
+</body></html>
+
